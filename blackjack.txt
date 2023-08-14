@@ -1,0 +1,74 @@
+
+import random
+
+
+def card():
+    cards = [11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+    card = random.choice(cards)
+    return card
+
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def sumofcard(cards):
+    if sum(cards) == 21 and len(cards)==2:
+        return 0
+    if 11 in cards and sum(cards) > 21:
+        cards.remove(11)
+        cards.append(1)
+    return sum(cards)
+
+def compare(user_score,computer_score):
+    if user_score > 21 and computer_score > 21:
+        return "You went over. You lose 😤"
+
+    if user_score == computer_score:
+        return "Draw 🙃"
+    elif computer_score == 0:
+        return "Lose, computer has Blackjack 😱"
+    elif user_score == 0:
+        return "Win with a Blackjack 😎"
+    elif user_score > 21:
+        return "You went over. You lose 😭"
+    elif computer_score > 21:
+        return "computer went over. You win 😁"
+    elif user_score > computer_score:
+        return "You win 😃"
+    else:
+        return "You lose 😤"
+
+
+
+user_card = []
+computer_card = []
+
+is_game_over= False
+
+
+for a in range(2):
+    user_card.append(card())
+    computer_card.append(card())
+
+while not is_game_over:
+    user_score = sumofcard(user_card)
+    computer_score = sumofcard(computer_card)
+
+    print (f'user card {user_card}  and score {user_score}')
+    print (f'computer card {computer_card[0]} ')
+
+
+    if user_score == 0 or computer_score == 0 or user_score > 21:
+        is_game_over = True
+    else:
+        user_deal = input("enter y to new card  n to stand ")
+        if user_deal == "y":
+            user_card.append(card())
+        else:
+            is_game_over = True
+while computer_score != 0 and computer_score < 17:
+    computer_card.append(card())
+    computer_score = sumofcard(computer_card)
+print(f'user card {user_card} and final score {user_score}')
+print(f'computer card {computer_card} and final score {computer_score}')
+print(compare(user_score, computer_score))
